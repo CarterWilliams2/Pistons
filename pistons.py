@@ -8,8 +8,14 @@ import random
 
 def main():
     teams = []
+    totalPosition = 0
+    averagePosition = 0
     addTeams(teams)
-    print(calcDraftPosition(teams))
+    #simulate draft lottery 100000 times
+    for i in range(100000):
+        totalPosition += calcDraftPosition(teams)
+    averagePosition = totalPosition / 100000
+    print(averagePosition)
     
 #2024 draft lottery teams
 #add in the teams with the amount of 4-ball combinations they would
@@ -50,10 +56,10 @@ def calcDraftPosition(teams):
     detPostion = 0
     for i in range(4):
         #this random int represents one of the 1001 possible 4-ball combinations
-        n = random.randint(1, 1001)
+        n = random.randint(0, 1000)
         #check for re-rolls
-        while n==1001 or teams[n] in selected:
-            n = random.randint(1, 1001)
+        while n==1000 or teams[n] in selected:
+            n = random.randint(1, 1000)
         #assign team to first pick through fourth pick
         selected[i] = teams[n]
         #check if Detriot was the team selected
@@ -63,6 +69,7 @@ def calcDraftPosition(teams):
     #the fifth pick at worst
     if "DET" not in selected:
         detPosition = 5
+    #return draft position
     return detPosition
 
 
